@@ -309,7 +309,7 @@ end
 % Phase-shift ipsilateral markers by finding the half cycle period of the
 % x-coordinate of the meta-tarsal marker ("ft") signal. This should be a
 % good estimate of the time taken to complete a half crank cycle.
-[~, locs] = findpeaks(C.ft(:,2));
+[~, locs] = findpeaks(C.ft(:,2),'minPeakDistance',60);
 wavelength = mean(diff(locs));
 delay = round(wavelength/2);
 
@@ -724,9 +724,10 @@ end
 %% Check z coords
 figure('Name','Check for Z-coord. dropout','color','w')
 for iM = 1:numel(markerList)
-    plot(1:length(C.hd),C.(markerList{iM})(:,4))
+    x = seconds(1/new_freq:1/new_freq:length(C.hd)/new_freq);
+    plot(x,C.(markerList{iM})(:,4))
     hold on
-    xlabel('Samples (200 Hz)')
+    xlabel('Time')
     ylabel('Z coordinates (mm)')
     title('PASSED. Range of marker Z coordinates looks normal.')
     if range(ylim) >1000
