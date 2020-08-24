@@ -335,8 +335,10 @@ for i =  1:length(C.sh)
 end
 
 if strcmp(sex, 'male') % Male
-    lowertrunkLength = trunkLength * (145.7/531.9);
+    % use male full trunk length average from DeLeva to get initial estimate of lower trunk length
+    lowertrunkLength = trunkLength * (145.7/531.9); 
 else % Female
+    % use female full trunk length average from DeLeva to get initial estimate of lower trunk length
     lowertrunkLength = trunkLength * (181.5/529.3);
 end
 
@@ -349,7 +351,7 @@ if strcmp(tree.viewedSide,'R')
     C.lt(:,2) = C.hp_r(:,2) - lt_x';
     C.lt(:,3) = C.hp_r(:,3) - lt_y';
 else
-    C.lt(:,2) = C.hp(:,2) + lt_x';
+    C.lt(:,2) = C.hp(:,2) + lt_x'; % +ve for left
     C.lt(:,3) = C.hp(:,3) - lt_y';
 end
 
@@ -390,10 +392,11 @@ if strcmp(tree.viewedSide,'R')
     C.mt(:,2) = C.lt(:,2) - mt_x';
     C.mt(:,3) = C.lt(:,3) - mt_y';
 else
-    C.hd(:,2) = C.sh(:,2) + hd_x';
-    C.hd(:,3) = C.sh(:,3) - hd_y';
-    C.mt(:,2) = C.lt(:,2) + mt_x';
-    C.mt(:,3) = C.hp(:,3) - mt_y';
+    C.hd(:,2) = C.sh(:,2) - hd_x'; %-ve for left as well
+    C.hd(:,3) = C.sh(:,3) - hd_y'; %-ve for left as well
+    C.mt = C.lt; % add this for left side files as well
+    C.mt(:,2) = C.lt(:,2) - mt_x'; % -ve for left as well
+    C.mt(:,3) = C.lt(:,3) - mt_y'; % C.lt not C.hp
 end
 
 %% Adjust z-coordinates of contralateral markers
@@ -559,17 +562,23 @@ end
 
 %% Subplot 1: 3D rider
 fig = figure;
+color1 = 'k';
+color2 = 'r';
 set(fig,'name','Rider Animation','color','w','position',[30 80 1220 620])
 ax1 = subplot(3,3,[1 4 7]);
-p1 = plot3(head(:,3,1),-head(:,1,1),-head(:,2,1),'k-o'); % head
+p1 = plot3(head(:,3,1),-head(:,1,1),-head(:,2,1),'-o',...
+    'color',color1,'markerFaceColor',color1,'markerSize',4); % head
 hold on
-p2 = plot3(arm_r(:,3,1),-arm_r(:,1,1),-arm_r(:,2,1),'-o',...
-    'color',[1 1 1]*0.5); % right arm
-p3 = plot3(arm_l(:,3,1),-arm_l(:,1,1),-arm_l(:,2,1),'k-o'); % left arm
-p4 = plot3(trunk(:,3,1),-trunk(:,1,1),-trunk(:,2,1),'k-o'); % torso
+p2 = plot3(arm_r(:,3,1),-arm_r(:,1,1),-arm_r(:,2,1),'r-o',...
+    'color',color2,'markerFaceColor',color2,'markerSize',4); % right arm red
+p3 = plot3(arm_l(:,3,1),-arm_l(:,1,1),-arm_l(:,2,1),'-o',...
+    'color',color1,'markerFaceColor',color1,'markerSize',4); % left arm
+p4 = plot3(trunk(:,3,1),-trunk(:,1,1),-trunk(:,2,1),'-o',...
+    'color',color1,'markerFaceColor',color1,'markerSize',4); % torso
 p5 = plot3(leg_r(:,3,1),-leg_r(:,1,1),-leg_r(:,2,1),'-o',...
-    'color',[1 1 1]*0.5); % right leg
-p6 = plot3(leg_l(:,3,1),-leg_l(:,1,1),-leg_l(:,2,1),'k-o'); % left leg
+    'color',color2,'markerFaceColor',color2,'markerSize',4); % right leg red
+p6 = plot3(leg_l(:,3,1),-leg_l(:,1,1),-leg_l(:,2,1),'-o',...
+    'color',color1,'markerFaceColor',color1,'markerSize',4); % left leg
 p7 = scatter3(wbCOM(:,3,1),-wbCOM(:,1,1),-wbCOM(:,2,1),50,'g','filled'); % CoM
 p8 = line([dist(10,3,1) dist(10,3,1)],[-dist(10,1,1) -bb(1,1)],...
     [-dist(10,2,1) -bb(1,2)],'Color','k','LineStyle','-','LineWidth',10); % cr_r
@@ -592,7 +601,7 @@ axis([midline-500 midline+500 -bb(1,1)-800 -bb(1,1)+600 -bb(1,2)-400 ...
     -bb(1,2)+1600])
 grid on
 box on
-title('Rider position (3D View)')
+title({'Rider position (3D View)','\rmred = right side'})
 xlabel('z (mm)')
 ylabel('x (mm)')
 zlabel('y (mm)')
@@ -713,13 +722,18 @@ if strcmp(animate, 'on')
 else
 end
 %% Check z coords
-figure('Name','Check for Z-coord. dropout')
+figure('Name','Check for Z-coord. dropout','color','w')
 for iM = 1:numel(markerList)
-    plot(C.(markerList{iM})(:,4))
+    plot(1:length(C.hd),C.(markerList{iM})(:,4))
     hold on
-    ylim([0 3000])
     xlabel('Samples (200 Hz)')
     ylabel('Z coordinates (mm)')
+    title('PASSED. Range of marker Z coordinates looks normal.')
+    if range(ylim) >1000
+        title('WARNING. Range of marker Z coordinates is higher than expected.')
+        warning('Possible errors in CoM results due to marker dropout. Please inspect the plot of Z-coorindates.'); 
+    end
+    box off
 end
 
 % Use a standard media player to play the video. The figure should still be
