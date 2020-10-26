@@ -1,4 +1,4 @@
-function [com3d, com2bb, com2bbMean] = vantage_com(varargin)
+function [com2bbMean, com3d, com2bb] = vantage_com(varargin)
 %VANTAGE_COM Calculates a cyclist's center of mass position using
 %reflective marker locations from a Retul Vantage motion capture system.
 %
@@ -175,7 +175,7 @@ copyfile(file,filename)
 
 %% Load Vantage data into structure
 % The Vantage Data is loaded into a MATLAB structure. 
-tree = xml_read([path filename])
+tree = xml_read([path filename]);
 
 %% Place marker data into new structure 'S'
 % First, the 'COMMENT' field is removed to leave only the marker names as
