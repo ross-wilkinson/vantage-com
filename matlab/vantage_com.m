@@ -1,4 +1,4 @@
-function [com2bbMean, com3d, com2bb] = vantage_com(varargin)
+function [com3d, com2bb, com2bbMean] = vantage_com(varargin)
 %VANTAGE_COM Calculates a cyclist's center of mass position using
 %reflective marker locations from a Retul Vantage motion capture system.
 %
