@@ -11,11 +11,11 @@ myComList = struct();
 Hip = 370;
 Shoulder = 450;
 
-for i=1:length(myDir)
+for i=7%1:length(myDir)
 %     myPose = fullfile(myDir(i).folder,myDir(i).name);
     cd(mydir)
     myPose = myDir(i).name;
-    [com3d, com2bb, com2bbMean] = vantage_com(myPose,'off','male', mass, 54, Shoulder, Hip);
+    [com3d, com2bb, com2bbMean] = vantage_com(myPose,'on','male', mass, 54, Shoulder, Hip);
     myComList(i).rider = 'Jason';
     myComList(i).poseFile = myDir(i).name;
     myComList(i).com2bbMean = com2bbMean;
@@ -28,21 +28,26 @@ writetable(myTable,'com2bbJason.csv');
 %% FOR TODD
 %Ross change this
 mydir = '/Users/rosswilkinson/Google Drive/projects/vantage-com/data/COM Pose files/Todd Pose files';
-myDir = dir(mydir); myDir(1) = []; myDir(1) = [];
+resDir = '/Users/rosswilkinson/Google Drive/projects/vantage-com/results';
+cd(mydir)
+myDir = dir('*.pose');
+% myDir(1) = []; myDir(1) = [];
 mass = 78.8;
 myComList = struct();
 Hip = 296;
 Shoulder = 411;
 
-
 for i=1:length(myDir)
-    myPose = fullfile(myDir(i).folder,myDir(i).name);
-    [com3d, com2bb, com2bbMean] = vantage_com(myPose,'off','male', mass, 54, Shoulder, Hip);
+%     myPose = fullfile(myDir(i).folder,myDir(i).name);
+    cd(mydir)
+    myPose = myDir(i).name;
+    [com3d, com2bb, com2bbMean] = vantage_com(myPose,'on','male', mass, 54, Shoulder, Hip);
     myComList(i).rider = 'Todd';
     myComList(i).poseFile = myDir(i).name;
     myComList(i).com2bbMean = com2bbMean;
 end
 
 myTable = struct2table(myComList);
-writetable(myTable,'C:\repo\com2bbTodd.csv');
+cd(resDir)
+writetable(myTable,'com2bbTodd.csv');
 
