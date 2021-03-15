@@ -376,15 +376,13 @@ end
 
 %% Estimate head angle based on residual trunk angle
 % Linear function of residual trunk angle. Predicting that the head angle
-% moves from -35 to +10 deg. relative to the trunk as it moves from 180 to
-% 90 deg. (vertical).
+% moves from 55 to 80 deg. relative to horizontal as the trunk moves from 0
+% to 90 deg. (vertical).
 if strcmp(tree.viewedSide,'R')
     headAngle = 0.5*residualTrunkAngle + 0.95993;
 else
     headAngle = 0.27778*residualTrunkAngle + 1.309;
 end
-% headAngle = pi/2;
-% headAngle = pi;
 
 %% Create virtual markers at the proximal enpoint of the head and middle trunk
 % Estimate the position of vertex of head by adding head length to shoulder
