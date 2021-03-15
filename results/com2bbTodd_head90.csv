@@ -1,0 +1,14 @@
+,,head90,head180,headEst,,,,
+rider,poseFile,com2bbMean,com2bbMean,com2bbMean,Diff to 90 (mm),Diff to 90 (%),Diff to 180 (mm),Diff to 180 (%)
+Todd,Aero 1 (Right).pose,-85.8,-94.1,-88.8,-3.1,3%,5.3,-6%
+Todd,Aero 1(Left).pose,-83.2,-91.6,-87.2,-4.0,5%,4.3,-5%
+Todd,Aero 2 (Left).pose,-83.4,-91.7,-87.4,-4.0,5%,4.3,-5%
+Todd,Aero 2 (Right).pose,-86.8,-95.1,-89.8,-3.1,3%,5.3,-6%
+Todd,Drops (Right).pose,-55.0,-63.3,-57.2,-2.2,4%,6.1,-10%
+Todd,Drops 2 (Right).pose,-56.3,-64.6,-58.5,-2.2,4%,6.1,-10%
+Todd,Hoods (Right).pose,-43.4,-51.7,-44.9,-1.5,3%,6.8,-14%
+Todd,Hoods 2 (Right).pose,-45.9,-54.2,-47.5,-1.6,3%,6.8,-13%
+Todd,drops (Left).pose,-47.5,-55.9,-51.1,-3.6,7%,4.8,-9%
+Todd,drops 2 (Left).pose,-51.4,-59.7,-54.9,-3.6,7%,4.7,-8%
+Todd,hoods (Left).pose,-35.0,-43.4,-38.3,-3.2,9%,5.1,-12%
+Todd,hoods 2 (Left).pose,-36.1,-44.4,-39.3,-3.2,9%,5.1,-12%

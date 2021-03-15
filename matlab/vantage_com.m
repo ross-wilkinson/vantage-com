@@ -360,29 +360,41 @@ end
 % length using shoulder and hip markers. Use lower trunk marker to
 % determine residual trunk length to shoulder.
 for i = 1:length(C.sh)
-    residualtrunkLength(i) = ...
+    residualTrunkLength(i) = ...
         norm(C.lt(i,[2 3]) - mean([C.sh(i,[2 3]); C.sh_r(i,[2 3])]));
-    residualtrunkAngle(i) = ...
+    residualTrunkAngle(i) = ...
         angle2Points(mean([C.sh(i,[2 3]); C.sh_r(i,[2 3])]),C.lt(i,[2 3]));
 end
 
 if strcmp(sex, 'male') % Male
     headLength = 242.9;
-    middletrunkLength = residualtrunkLength * (215.5/(170.7+215.5));
+    middleTrunkLength = residualTrunkLength * (215.5/(170.7+215.5));
 else % Female
     headLength = 243.7;
-    middletrunkLength = residualtrunkLength * (205.3/(142.5+205.3));
+    middleTrunkLength = residualTrunkLength * (205.3/(142.5+205.3));
 end
+
+%% Estimate head angle based on residual trunk angle
+% Linear function of residual trunk angle. Predicting that the head angle
+% moves from -35 to +10 deg. relative to the trunk as it moves from 180 to
+% 90 deg. (vertical).
+if strcmp(tree.viewedSide,'R')
+    headAngle = 0.5*residualTrunkAngle + 0.95993;
+else
+    headAngle = 0.27778*residualTrunkAngle + 1.309;
+end
+% headAngle = pi/2;
+% headAngle = pi;
 
 %% Create virtual markers at the proximal enpoint of the head and middle trunk
 % Estimate the position of vertex of head by adding head length to shoulder
 % position and using residual trunk angle. Estimate the position of the
 % proximal end of the middle trunk by adding middle trunk length to lower
 % trunk marker at residual trunk angle.
-mt_x = cos(residualtrunkAngle) .* middletrunkLength;
-mt_y = sin(residualtrunkAngle) .* middletrunkLength;
-hd_x = cos(residualtrunkAngle) .* headLength; 
-hd_y = sin(residualtrunkAngle) .* headLength;
+mt_x = cos(residualTrunkAngle) .* middleTrunkLength;
+mt_y = sin(residualTrunkAngle) .* middleTrunkLength;
+hd_x = cos(headAngle) .* headLength; 
+hd_y = sin(headAngle) .* headLength;
     
 if strcmp(tree.viewedSide,'R')
     C.hd = C.sh_r;

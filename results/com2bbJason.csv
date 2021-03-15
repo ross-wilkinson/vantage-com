@@ -1,8 +1,14 @@
 rider,poseFile,com2bbMean
-,,
-,,
-,,
-,,
-,,
-,,
-Jason,drops 2 (Left).pose,-16.1461489356544
+Jason,aero (Left).pose,-98.6888307737352
+Jason,aero 1 (Left).pose,-49.3635086219114
+Jason,aero 2 (Left).pose,-98.7010341198925
+Jason,aero 2 (Right).pose,-79.9910176783193
+Jason,drops (Left).pose,-50.1716404724691
+Jason,drops (Right).pose,-48.9323205058606
+Jason,drops 2 (Left) rotated.pose,9.75544082426952
+Jason,drops 2 (Left).pose,-9.75544082426952
+Jason,drops 3 (Left).pose,-57.4274425881026
+Jason,hoods (Left).pose,-34.4058568520604
+Jason,hoods 1 (Right).pose,-27.6899055109341
+Jason,hoods 2 (Left).pose,-37.4858075331225
+Jason,hoods 2 (Right).pose,-32.0289760720945
