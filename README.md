@@ -1,4 +1,5 @@
 # vantage-com
+
 Repo for the vantage com project
 
 ![MATLAB animation](./image_output.png)
