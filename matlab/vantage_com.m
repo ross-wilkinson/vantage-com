@@ -1,14 +1,14 @@
 function [com3d, com2bb, com2bbMean] = vantage_com(varargin)
-%VANTAGE_COM Calculates a cyclist's center of mass position using
-%reflective marker locations from a Retul Vantage motion capture system.
-%
+% VANTAGE_COM Calculates a cyclist's center of mass position using
+% reflective marker locations from a Retul Vantage motion capture system.
+% 
 % This script uses an output file (.pose) from the Retul Vantage Motion
 % Capture system (left or right side) and generates a prediction and
 % animation of the rider's Center of Mass (CoM) position and displacement.
 % This animation is saved as a video file (.mp4). The mean position of the
 % rider's CoM relative to the bottom bracket over the entire capture period
 % is also calculated.
-%
+% 
 %   Examples:
 %   *Note: inputs need to be left blank or in exact order. I.e. next input
 %   in sequence cannot be accessed if previous input is not present.
@@ -23,12 +23,12 @@ function [com3d, com2bb, com2bbMean] = vantage_com(varargin)
 %       - vantage_com('foo.pose','off','female', 60, 63)
 %       - vantage_com('foo.pose','off','female', 60, 63, 343)
 %       - vantage_com('foo.pose','off','female', 60, 63, 343, 288)
-%
+% 
 %   Inputs:
 %        file - string containing the pose file name that you wish to load
 %        (leave blank to choose from dialog box). File needs to exist in
 %        current working directory.
-%
+% 
 %        anim - string containing whether to produce an animation of the
 %        rider 'on' or 'off' (default - 'on')
 %        
@@ -37,28 +37,28 @@ function [com3d, com2bb, com2bbMean] = vantage_com(varargin)
 %        
 %        mass - mass of rider in kilograms (default - 78.05 kg for
 %        male, 64.26 kg for female)
-%
+% 
 %        sacralAngle - angle of lower back counter-clockwise from
 %        horizontal (default - 54 degrees.)
-%
+% 
 %        sh_width - width of rider's shoulders in millimeters (default -
 %        411 for male, 367 for female)
-%
+% 
 %        hp_width - width of rider's hips in millimeters (default - 296 for
 %        male, 291 for female)  
-%
+% 
 %        shoeMass - mass of each shoe in kilograms (default - 1 kg)
 % 
 %     Outputs: 
 %         com3d - mx3 array of frame-by-frame three-dimensional CoM
 %         position within the vantage-coordinate system, m = number of
 %         frames. Data is upsampled to 200 Hz.
-%
+% 
 %         com2bb - mx1 vector of fore-aft CoM position relative to the
 %         estimated bottom bracket position. Data is upsampled to 200 Hz.
-%
+% 
 %         com2bbMean - mean value of com2bb across all frames
-%
+% 
 % Copyright (C) Ross Wilkinson 2020- vantage_com.m by Ross Duncan Wilkinson
 % is licensed under a Creative Commons
 % Attribution-NonCommercial-NoDerivatives 4.0 International License.
