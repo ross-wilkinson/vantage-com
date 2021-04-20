@@ -4,6 +4,10 @@ Repo for the vantage com project
 
 ![MATLAB animation](./image_output.png)
 
+| Author(s) | Brief Description | Intended Uses and Known Limitations | Included Material | Updated |
+|-|-|-|-|-|
+| Ross Wilkinson, Ph.D. | A rigid segment model of a cyclist built within MATLAB to estimate center of mass position and weight distribution between front and rear wheels. | Designed to estimate a cyclist's 3D center of mass motion from a limited markerset used for bicycle fitting by Retul and Specialized Bicycle Components, Inc. Assumes symmetry between left and right segments. Estimates orientation of trunk segments and head/neck segment. |  Data and MATLAB function. | April 19, 2021 |
+
 ## Description
 
 ```matlab
