@@ -526,16 +526,19 @@ wbCOM = sum(segTRQ);
 
 %% Estimate bottom bracket position using foot markers
 % Get unit vector from foot to heel.
-foot2heel = C.ft_r(:,2:3) - C.he_r(:,2:3);
+foot2heel = C.he(:,2:3) - C.ft(:,2:3);
 
 % Create perpendicular unit vector
-vp = [-foot2heel(:,2), foot2heel(:,1)];
+vp = [foot2heel(:,2), -foot2heel(:,1)];
 
 % Calculate 2D vector from foot to pedal
-foot2pedal = vp ./ (vp(:,2) / 50);
+for i = 1:nSamples
+    k = 50 ./ norm(vp(i,:)); % scale perpendicular vector to 50 mm
+    foot2pedal(i,:) = vp(i,:) * k;
+end
 
 % Create virtual marker at right pedal spindle
-spindle_rough = C.ft_r(:,2:3) + foot2pedal;
+spindle_rough = C.ft(:,2:3) + foot2pedal;
 
 % Calculate axis of rotation
 c = CircleFitByPratt(spindle_rough);
@@ -552,11 +555,9 @@ crankLength = c(3);
 % relative to the bottom bracket.
 bb = repmat(bb,length(foot2pedal),1);
 
-% bb = mean([dist(10,:,:);dist(16,:,:)]);
-% bb = reshape(bb,[3,length(bb)])';
-com2bb = bb(:,1) - reshape(wbCOM(:,1,:),[length(wbCOM),1]);
+com3d = squeeze(wbCOM)';
+com2bb = com3d(:,1) - bb(:,1);
 com2bbMean = mean(com2bb);
-com3d = wbCOM;
 
 %% Save data
 save(strrep(filename,'.xml','.mat'))
@@ -616,6 +617,7 @@ p5 = plot3(leg_r(:,3,1),-leg_r(:,1,1),-leg_r(:,2,1),'-o',...
 p6 = plot3(leg_l(:,3,1),-leg_l(:,1,1),-leg_l(:,2,1),'-o',...
     'color',color1,'markerFaceColor',color1,'markerSize',4); % left leg
 p7 = scatter3(wbCOM(:,3,1),-wbCOM(:,1,1),-wbCOM(:,2,1),50,'g','filled'); % CoM
+p8 = scatter3(wbCOM(:,3,1),-bb(1,1),-bb(1,2),40,'k','filled'); % BB
 % p8 = line([dist(10,3,1) dist(10,3,1)],[-dist(10,1,1) -bb(1,1)],...
 %     [-dist(10,2,1) -bb(1,2)],'Color','r','LineStyle','-','LineWidth',10); % cr_r
 % p9 = line([dist(16,3,1) dist(16,3,1)],[-dist(16,1,1) -bb(1,1)],...
@@ -732,6 +734,7 @@ if strcmp(animate, 'on')
         set(p5,'xdata',leg_r(:,3,j),'ydata',-leg_r(:,1,j),'zdata',-leg_r(:,2,j));
         set(p6,'xdata',leg_l(:,3,j),'ydata',-leg_l(:,1,j),'zdata',-leg_l(:,2,j));
         set(p7,'xdata',wbCOM(:,3,j),'ydata',-wbCOM(:,1,j),'zdata',-wbCOM(:,2,j));
+        set(p8,'xdata',wbCOM(:,3,1),'ydata',-bb(j,1),'zdata',-bb(j,2));
 %         set(p8,'xdata',[bb(j,1) dist(10,3,j)],'ydata',[-dist(10,1,j) -bb(j,1)],...
 %             'zdata',[-dist(10,2,j) -bb(j,2)]); % crank right
 %         set(p9,'xdata',[dist(16,3,j) dist(16,3,j)],'ydata',[-dist(16,1,j) -bb(j,1)],...
