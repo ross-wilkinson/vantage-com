@@ -120,9 +120,9 @@ function [com3d, com2bb, com2bbMean, C] = vantage_com(varargin)
 animate = 'on'; sex = 'male'; mass = 78.05; sacralAngle = 54; sh_width = 411;
 hp_width = 296; shoeMass = 1;
 if contains(computer('arch') ,'win')
-    path = [pwd '\'];
+    path = [string(cd) '\'];
 else
-    path = [pwd '/'];
+    path = [string(cd) '/'];
 end
 
 %% Evaluate inputs
@@ -329,6 +329,7 @@ end
 % Use BSIPs from De Leva (1996) for the distribution of trunk length.
 % Use estimated sacral angle of 54 deg. or use measured angle from vantage
 % data.
+trunkLength = [];
 for i =  1:length(C.sh)
     trunkLength(i) = norm(mean([C.sh(i,[2 3]); C.sh_r(i,[2 3])])...
         - mean([C.hp(i,[2 3]) C.hp_r(i,[2 3])]));
@@ -359,6 +360,8 @@ end
 % Use BSIPs from De Leva (1996) for head length. Estimate whole trunk
 % length using shoulder and hip markers. Use lower trunk marker to
 % determine residual trunk length to shoulder.
+residualTrunkLength = zeros(1,length(C.sh));
+residualTrunkAngle = zeros(1,length(C.sh));
 for i = 1:length(C.sh)
     residualTrunkLength(i) = ...
         norm(C.lt(i,[2 3]) - mean([C.sh(i,[2 3]); C.sh_r(i,[2 3])]));
