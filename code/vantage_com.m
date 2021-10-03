@@ -120,9 +120,9 @@ function [com3d, com2bb, com2bbMean, C] = vantage_com(varargin)
 animate = 'on'; sex = 'male'; mass = 78.05; sacralAngle = 54; sh_width = 411;
 hp_width = 296; shoeMass = 1;
 if contains(computer('arch') ,'win')
-    path = [string(cd) '\'];
+    path = [cd '\'];
 else
-    path = [string(cd) '/'];
+    path = [cd '/'];
 end
 
 %% Evaluate inputs
@@ -464,7 +464,7 @@ for i = 1:nSamples
     % ===============                           % =======           % =================
     prox(:,:,i) = [...
         C.hd(i,2:4);...                         % head              vertex
-        mean([C.sh(1,2:4);C.sh_r(1,2:4)]);...   % upper trunk       jugular notch
+        mean([C.sh(i,2:4);C.sh_r(i,2:4)]);...   % upper trunk       jugular notch
         C.mt(i,2:4);...                         % middle trunk      xyphion
         C.lt(i,2:4);...                         % lower trunk       omphalion
         C.sh_r(i,2:4);...                       % upper arm right   shoulder JC right
@@ -483,7 +483,7 @@ for i = 1:nSamples
     % Distal Marker                             % Segment           % Distal Endpoint    
     % =============                             % =======           % ===============
     dist(:,:,i) = [...
-        mean([C.sh(1,2:4);C.sh_r(1,2:4)]);...   % head              mid cervicale
+        mean([C.sh(i,2:4);C.sh_r(i,2:4)]);...   % head              mid cervicale
         C.mt(i,2:4);...                         % upper trunk       xyphion
         C.lt(i,2:4);...                         % middle trunk      omphalion
         mean([C.hp_r(i,2:4);C.hp(i,2:4)]);...   % lower trunk       mid hip JC
