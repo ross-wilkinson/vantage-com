@@ -562,6 +562,10 @@ com3d = squeeze(wbCOM)';
 com2bb = com3d(:,1) - bb(:,1);
 com2bbMean = mean(com2bb);
 
+fprintf('Mean CoM to BB distance (X) = %.1f\n', com2bbMean)
+fprintf('Bottom Bracket Position (XY) = %.1f %.1f\n', bb(1,:))
+fprintf('Mean CoM Position (XYZ) = %.1f %.1f %.1f\n', mean(com3d))
+
 %% Save data
 save(strrep(filename,'.xml','.mat'))
 
